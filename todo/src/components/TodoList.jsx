@@ -38,7 +38,7 @@ const TodoList = () => {
   console.log(todoValue);
 
   return (
-    <div>
+    <div className="container">
       <Form createTodo={create_todo} />
       {todoValue.map((value_obj) =>
         value_obj.isEdit ? (
