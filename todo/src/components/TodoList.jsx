@@ -10,12 +10,15 @@ const TodoList = () => {
     setTodoValue([...todoValue, { id: uuidv4(), text: value, isEdit: false }]);
   };
 
-  console.log(todoValue);
+  const delete_todo = (id) => {
+    setTodoValue(todoValue.filter((value_obj) => value_obj.id !== id));
+  };
+
   return (
     <div>
       <Form createTodo={create_todo} />
       {todoValue.map((value_obj) => (
-        <Todo key={value_obj.id} task={value_obj} />
+        <Todo key={value_obj.id} task={value_obj} deleteTodo={delete_todo} />
       ))}
     </div>
   );
