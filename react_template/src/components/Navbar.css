@@ -1,0 +1,65 @@
+nav {
+  position: fixed;
+  left: 0;
+  top: 0;
+  border-bottom: 1px solid rgb(64, 64, 64);
+  width: 100%;
+}
+
+.nav_wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ****************** logo ****************** */
+.nav_wrapper .logo {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.nav_wrapper .logo_symbol {
+  border: 1px solid rgb(64, 64, 64);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav_wrapper .logo_symbol .logo_dot {
+  width: 32px;
+  height: 32px;
+  display: block;
+  background: indigo;
+  border-radius: 50%;
+}
+
+.nav_wrapper .logo_title {
+  font-family: var(--ff-en);
+  font-weight: 500;
+  font-size: 1.25rem;
+}
+
+/* ****************** navigation ****************** */
+.nav_wrapper .navi {
+  display: flex;
+  gap: 1.25em;
+  font-family: var(--ff-en);
+}
+
+/* ****************** sub navigation ****************** */
+.nav_wrapper .sub_links {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.nav_wrapper .sub_links a {
+  font-family: var(--ff-en);
+  border: 1px solid rgb(64, 64, 64);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+}
