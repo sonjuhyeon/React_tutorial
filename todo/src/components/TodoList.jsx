@@ -8,7 +8,10 @@ const TodoList = () => {
   const [todoValue, setTodoValue] = useState([]);
 
   const create_todo = (value) => {
-    setTodoValue([...todoValue, { id: uuidv4(), text: value, isEdit: false }]);
+    setTodoValue([
+      ...todoValue,
+      { id: uuidv4(), text: value, isEdit: false, isDone: false },
+    ]);
   };
 
   const delete_todo = (id) => {
@@ -20,6 +23,16 @@ const TodoList = () => {
       todoValue.map((value_obj) =>
         value_obj.id === id
           ? { ...value_obj, isEdit: !value_obj.isEdit }
+          : value_obj
+      )
+    );
+  };
+
+  const is_complete = (id) => {
+    setTodoValue(
+      todoValue.map((value_obj) =>
+        value_obj.id === id
+          ? { ...value_obj, isDone: !value_obj.isDone }
           : value_obj
       )
     );
@@ -49,6 +62,7 @@ const TodoList = () => {
             task={value_obj}
             deleteTodo={delete_todo}
             editTodo={edit_todo}
+            isComplete={is_complete}
           />
         )
       )}
