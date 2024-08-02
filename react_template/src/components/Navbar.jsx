@@ -3,12 +3,12 @@ import "./Navbar.css";
 import { Link } from "react-router-dom";
 import { authLink, navItems } from "../constants/data";
 import ModeCtrl from "./ModeCtrl";
-import { Menu, X } from "lucide-react";
+import { RiMenu3Fill, RiCloseFill } from "react-icons/ri";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
-    <nav>
+    <nav className="backdrop-blur-lg">
       <div className="container relative">
         <div className="nav_wrapper">
           <div className="logo">
@@ -41,11 +41,15 @@ const Navbar = () => {
           </div>
           <div className="menu_icon lg:hidden flex gap-x-2">
             <ModeCtrl />
-            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-              {mobileMenuOpen ? <X /> : <Menu />}
+            <button
+              className="md:text-3xl text-2xl"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <RiCloseFill /> : <RiMenu3Fill />}
             </button>
           </div>
         </div>
+
         {mobileMenuOpen && (
           <div className="sub_nav_mobile absolute bg-white w-full top-full left-0 dark:bg-neutral-900 mt-[1px] lg:hidden">
             <ul className="navi">
