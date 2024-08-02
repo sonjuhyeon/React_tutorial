@@ -40,26 +40,34 @@ nav {
 .nav_wrapper .logo_title {
   font-family: var(--ff-en);
   font-weight: 500;
-  font-size: 1.25rem;
+  _font-size: 1.25rem;
 }
 
 /* ****************** navigation ****************** */
 .nav_wrapper .navi {
-  display: flex;
+  _display: flex;
   gap: 1.25em;
   font-family: var(--ff-en);
 }
 
 /* ****************** sub navigation ****************** */
-.nav_wrapper .sub_links {
-  display: flex;
+.sub_links {
+  _display: flex;
   gap: 0.5rem;
   align-items: center;
 }
 
-.nav_wrapper .sub_links a {
+.sub_links a {
   font-family: var(--ff-en);
   border: 1px solid rgb(64, 64, 64);
   padding: 0.5rem 0.75rem;
   border-radius: 0.5rem;
+}
+
+.mode_btn {
+  _font-size: 1.5rem;
+  _padding: 0.625rem;
+  background: rgb(212, 212, 212);
+  border-radius: 0.5rem;
+  color: rgb(10, 10, 10);
 }
