@@ -21,8 +21,8 @@ export const navItems = [
 ];
 
 export const authLink = [
-  { label: "Sign In", to: "/Signin" },
-  { label: "Sign Up", to: "/Signup" },
+  { label: "Sign In", to: "/signin" },
+  { label: "Sign Up", to: "/signup" },
 ];
 
 export const testimonials = [
@@ -67,37 +67,37 @@ export const testimonials = [
 export const features = [
   {
     icon: <BotMessageSquare />,
-    text: "Drag-and-Drop Interface",
+    text: "편리한 사용자 인터페이스",
     description:
       "Easily design and arrange your VR environments with a user-friendly drag-and-drop interface.",
   },
   {
     icon: <Fingerprint />,
-    text: "Multi-Platform Compatibility",
+    text: "멀티 플랫폼 확장성",
     description:
       "Build VR applications that run seamlessly across multiple platforms, including mobile, desktop, and VR headsets.",
   },
   {
     icon: <ShieldHalf />,
-    text: "Built-in Templates",
+    text: "깔맞춤 탬플릿",
     description:
       "Jumpstart your VR projects with a variety of built-in templates for different types of applications and environments.",
   },
   {
     icon: <BatteryCharging />,
-    text: "Real-Time Preview",
+    text: "실시간 리뷰",
     description:
       "Preview your VR application in real-time as you make changes, allowing for quick iterations and adjustments.",
   },
   {
     icon: <PlugZap />,
-    text: "Collaboration Tools",
+    text: "견고한 협업 툴",
     description:
       "Work together with your team in real-time on VR projects, enabling seamless collaboration and idea sharing.",
   },
   {
     icon: <GlobeLock />,
-    text: "Analytics Dashboard",
+    text: "분석을 위한 대시보드",
     description:
       "Gain valuable insights into user interactions and behavior within your VR applications with an integrated analytics dashboard.",
   },

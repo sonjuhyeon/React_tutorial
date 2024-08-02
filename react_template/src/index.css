@@ -20,7 +20,7 @@
   }
 }
 
-/* footer .container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-} */
+.vid {
+  _width: 40%;
+  box-shadow: 0 0 5px indigo;
+}

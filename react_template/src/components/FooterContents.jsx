@@ -8,7 +8,10 @@ const FooterContents = ({ title, linkData }) => {
       <ul className="space-y-2">
         {linkData.map((item, idx) => (
           <li key={idx}>
-            <Link to={item.to} className="text-neutral-300 hover:text-white">
+            <Link
+              to={item.to}
+              className="dark:text-neutral-300 text-neutral-700 hover:font-bold"
+            >
               {item.text}
             </Link>
           </li>

@@ -24,29 +24,31 @@ const Navbar = () => {
               </li>
             ))}
           </ul>
-          <div className="sub_links hidden lg:flex">
-            {authLink.map((item, idx) => (
-              <Link
-                key={idx}
-                to={item.to}
-                className={`${
-                  idx === 1 &&
-                  "bg-gradient-to-r from-indigo-500 to bg-indigo-700 text-white"
-                }`}
+
+          <div className="sub_link_wrapper flex gap-x-2">
+            <div className="sub_links hidden lg:flex">
+              {authLink.map((item, idx) => (
+                <Link
+                  key={idx}
+                  to={item.to}
+                  className={`${
+                    idx === 1 &&
+                    "bg-gradient-to-r from-indigo-500 to bg-indigo-700 text-white"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+            <ModeCtrl />
+            <div className="menu_icon lg:hidden flex">
+              <button
+                className="md:text-3xl text-2xl"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               >
-                {item.label}
-              </Link>
-            ))}
-            <ModeCtrl />
-          </div>
-          <div className="menu_icon lg:hidden flex gap-x-2">
-            <ModeCtrl />
-            <button
-              className="md:text-3xl text-2xl"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? <RiCloseFill /> : <RiMenu3Fill />}
-            </button>
+                {mobileMenuOpen ? <RiCloseFill /> : <RiMenu3Fill />}
+              </button>
+            </div>
           </div>
         </div>
 

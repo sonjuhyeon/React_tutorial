@@ -4,6 +4,10 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {},
+    fontFamily: {
+      customFontEn: ['"IBM Plex Mono", monospace'],
+      customFontKR: ['Noto Sans KR", sans-serif'],
+    },
     screens: {
       mb: "390px",
       // => @media (min-width: 640px) { ... }
