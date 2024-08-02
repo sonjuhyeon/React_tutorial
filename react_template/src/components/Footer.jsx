@@ -5,42 +5,15 @@ import {
   resourcesLinks,
 } from "../constants/data";
 import { Link } from "react-router-dom";
-import { TbBackground } from "react-icons/tb";
+import FooterContents from "./FooterContents";
 
 const Footer = () => {
   return (
-    <footer>
-      <div className="container">
-        <div style={{ background: "green" }}>
-          <h3>Resources</h3>
-          <ul>
-            {resourcesLinks.map((item, idx) => (
-              <li key={idx}>
-                <Link to={item.to}>{item.text}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div style={{ background: "yellow" }}>
-          <h3>Platform</h3>
-          <ul>
-            {platformLinks.map((item, idx) => (
-              <li key={idx}>
-                <Link to={item.to}>{item.text}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div style={{ background: "red" }}>
-          <h3>Community</h3>
-          <ul>
-            {communityLinks.map((item, idx) => (
-              <li key={idx}>
-                <Link to={item.to}>{item.text}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+    <footer className="mt-20 border-t py-10 border-neutral-700">
+      <div className="container grid lg:grid-cols-3 grid-cols-2 gap-x-4 gap-y-10">
+        <FooterContents title="Resources" linkData={resourcesLinks} />
+        <FooterContents title="Platform" linkData={platformLinks} />
+        <FooterContents title="Community" linkData={communityLinks} />
       </div>
     </footer>
   );
