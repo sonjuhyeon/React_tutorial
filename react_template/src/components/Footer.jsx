@@ -4,7 +4,6 @@ import {
   platformLinks,
   resourcesLinks,
 } from "../constants/data";
-import { Link } from "react-router-dom";
 import FooterContents from "./FooterContents";
 
 const Footer = () => {
