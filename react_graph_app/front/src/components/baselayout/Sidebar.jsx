@@ -46,7 +46,9 @@ const Sidebar = () => {
                   >
                     <span
                       className={`w-5 ${
-                        idx === selectedMenu ? "invert-[1] brightness-100" : ""
+                        idx === selectedMenu
+                          ? "invert-[1] brightness-[100%]"
+                          : ""
                       }`}
                     >
                       <img src={menu.icon} alt={menu.alt} />
