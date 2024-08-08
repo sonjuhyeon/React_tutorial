@@ -40,8 +40,20 @@ const Languages = () => {
     fetchCountryData();
   }, []);
 
+  const handleDropList = () => setIsDropOpen(!isDropOpen);
+
+  // 자바스크립트 객체에서는 키와 값이 같을경우, 키와 값중 하나만 쓸수 있다.
+  const handleSelected = (country, flag, language) => {
+    setSelectedCountry({ country, flag, language });
+    // setSelectedCountry({
+    //   country: country,
+    //   flag: flag,
+    //   language: language,
+    // });
+  };
+
   return (
-    <div className="w-30 h-10 mx-7 relative">
+    <div className="w-30 h-10 mx-7 relative" onClick={handleDropList}>
       <div className="dropdown-default w-full h-full cursor-pointer px-1 py-3 flex items-start gap-x-3">
         <div className="dropdown-img w-6 h-6 overflow-hidden rounded-full">
           <img
@@ -69,7 +81,17 @@ const Languages = () => {
             if (country.languages && Object.keys(country.languages)) {
               const langKey = Object.keys(country.languages)[0];
               return (
-                <div key={idx} className="flex items-center gap-x-3">
+                <div
+                  key={idx}
+                  className="flex items-center gap-x-3 cursor-pointer hover:bg-gray-700 py-1 px-1"
+                  onClick={() =>
+                    handleSelected(
+                      country.name.common,
+                      country.flags.png,
+                      langKey
+                    )
+                  }
+                >
                   <span className="w-4 h-4 overflow-hidden rounded-full">
                     <img
                       src={country.flags.png}
