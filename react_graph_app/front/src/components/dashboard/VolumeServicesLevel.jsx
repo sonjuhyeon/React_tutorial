@@ -1,36 +1,33 @@
 import React, { useEffect } from "react";
-import { fetchRevenueData } from "../../redux/slices/apiSlice";
-import { useDispatch, useSelector } from "react-redux";
 import HeadTitle from "./HeadTitle";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchVolumeServicesData } from "../../redux/slices/apiSlice";
+
 import {
-  Bar,
   BarChart,
+  Bar,
   CartesianGrid,
+  Tooltip,
   Legend,
   ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
 } from "recharts";
 
-const formatYLabel = (value) => `${value}K`;
-const formatTolltipValue = (value) => `${value} Sales`;
-
-const TotalRevenue = () => {
+const VolumeServicesLevel = () => {
   const dispatch = useDispatch();
-  const state = useSelector((state) => state.api.revenueData);
+  const state = useSelector((state) => state.api.volumeServicesData);
 
   useEffect(() => {
-    dispatch(fetchRevenueData());
+    dispatch(fetchVolumeServicesData());
   }, [dispatch]);
 
   return (
-    <div className="w-[50%] px-[5px]">
+    <div className="w-[30%] px-[5px] py-[10px]">
       <div className="block-cell">
         <div className="header-wrapper">
-          <HeadTitle title="Total Revenue" />
+          <HeadTitle title="Volume vs Services Level" />
         </div>
-        <div className="bar-chart w-full h-[280px] mt-6">
+
+        <div className="stacked-bar-chart w-full h-[280px] mt-6">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               width={500}
@@ -40,29 +37,26 @@ const TotalRevenue = () => {
                 top: 5,
                 right: 30,
                 left: 20,
-                bottom: 10,
+                bottom: 5,
               }}
             >
               <CartesianGrid
                 strokeDasharray="3 0"
-                horizontal={true}
+                horizontal={false}
                 vertical={false}
               />
-              <XAxis dataKey="day" />
-              <YAxis tickFormatter={formatYLabel} />
-              <Tooltip
-                cursor={{ fill: "transparent" }}
-                formatter={formatTolltipValue}
-              />
+              <Tooltip cursor={{ fill: "transparent" }} />
               <Legend />
               <Bar
-                dataKey="online"
+                dataKey="volume"
+                stackId="a"
                 fill="#0095ff"
                 barSize={18}
-                radius={[4, 4, 0, 0]}
+                radius={[0, 0, 4, 4]}
               />
               <Bar
-                dataKey="offline"
+                dataKey="services"
+                stackId="a"
                 fill="#00e096"
                 barSize={18}
                 radius={[4, 4, 0, 0]}
@@ -75,4 +69,4 @@ const TotalRevenue = () => {
   );
 };
 
-export default TotalRevenue;
+export default VolumeServicesLevel;

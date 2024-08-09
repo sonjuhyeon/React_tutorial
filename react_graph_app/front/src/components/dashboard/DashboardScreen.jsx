@@ -3,6 +3,7 @@ import TotalRevenue from "./TotalRevenue";
 import Sales from "./Sales";
 import Visitors from "./Visitors";
 import SalesMap from "./SalesMap";
+import VolumeServicesLevel from "./VolumeServicesLevel";
 
 const DashboardScreen = () => {
   return (
@@ -11,6 +12,7 @@ const DashboardScreen = () => {
       <TotalRevenue />
       <Visitors />
       <SalesMap />
+      <VolumeServicesLevel />
     </div>
   );
 };

@@ -48,4 +48,13 @@ app.get("/sales_map", async (req, res) => {
   }
 });
 
+app.get("/volume_services", async (req, res) => {
+  try {
+    const result = await database.pool.query("SELECT * FROM volume_services");
+    return res.status(200).json(result.rows);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
+
 app.listen(PORT, () => console.log(`server running on port ${PORT}`));

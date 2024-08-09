@@ -3,6 +3,7 @@ import {
   GET_REVENUE_API_URL,
   GET_SALES_MAP_API_URL,
   GET_VISITORS_API_URL,
+  GET_VOLUME_SERVICES_API_URL,
 } from "../../constants/apiUrl";
 import { getRequest } from "../../constants/requestMethods";
 
@@ -28,6 +29,11 @@ export const fetchSalesMapData = createFetchThunk(
   GET_SALES_MAP_API_URL
 );
 
+export const fetchVolumeServicesData = createFetchThunk(
+  "volumeServices",
+  GET_VOLUME_SERVICES_API_URL
+);
+
 const handleFullfilled = (stateKey) => (state, action) => {
   state[stateKey] = action.payload;
 };
@@ -43,16 +49,25 @@ const apiSlice = createSlice({
     revenueData: null,
     visitorsData: null,
     salesMapData: null,
+    volumeServicesData: null,
   },
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
     builder
       .addCase(fetchRevenueData.fulfilled, handleFullfilled("revenueData"))
       .addCase(fetchRevenueData.rejected, handleRejected)
+
       .addCase(fetchVisitorsData.fulfilled, handleFullfilled("visitorsData"))
       .addCase(fetchVisitorsData.rejected, handleRejected)
+
       .addCase(fetchSalesMapData.fulfilled, handleFullfilled("salesMapData"))
-      .addCase(fetchSalesMapData.rejected, handleRejected);
+      .addCase(fetchSalesMapData.rejected, handleRejected)
+
+      .addCase(
+        fetchVolumeServicesData.fulfilled,
+        handleFullfilled("volumeServicesData")
+      )
+      .addCase(fetchVolumeServicesData.rejected, handleRejected);
   },
 });
 
