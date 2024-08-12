@@ -10,6 +10,9 @@ CREATE TABLE task (
     userId TEXT NOT NULL
 );
 
-insert into task(_id, title, description, date, isCompleted, isImportant, created_at, updated_at, userId) value('1234', '할일1', '할일1설명', '2024-08-01', false, false 'juhyeon');
+INSERT INTO task (_id, title, description, date, isCompleted, isImportant, userId) VALUES ('1234', '할일1', '할일1설명', '2024-08-01', false, false, 'juhyeon')
 
 select * from task
+
+-- 특정사용자 데이터 조회
+select * from task where userId = "juhyeon"
