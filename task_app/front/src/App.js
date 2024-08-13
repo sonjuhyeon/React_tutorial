@@ -9,6 +9,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/completed" element={<Completed />} />
+          <Route path="/proceeding" element={<Completed />} />
+          <Route path="/important" element={<Completed />} />
         </Routes>
       </div>
     </BrowserRouter>
