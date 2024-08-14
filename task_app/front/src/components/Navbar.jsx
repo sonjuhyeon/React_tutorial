@@ -71,7 +71,7 @@ const Navbar = ({ menuIdx }) => {
             key={idx}
             className={`${
               menu.idx === menuIdx ? "bg-gray-950" : ""
-            } border border-gray-700 rounded-sm mb-1`}
+            } border border-gray-700 rounded-sm mb-1 hover:bg-gray-950 duration-300`}
           >
             <Link to={menu.to} className="flex items-center gap-x-4 py-1 px-10">
               {menu.icon}

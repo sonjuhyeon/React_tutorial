@@ -1,16 +1,45 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+
 import PageTitle from "./PageTitle";
+import Item from "./Item";
 import AddItem from "./AddItem";
 import Modal from "./Modal";
+import LoadingSkeleton from "./LoadingSkeleton";
+
+import { useDispatch, useSelector } from "react-redux";
+import { fetchGetItemsData } from "../redux/slices/apiSlice";
 
 const ItemPanel = ({ pageTitle }) => {
+  const dispatch = useDispatch();
   const authData = useSelector((state) => state.auth.authData);
   const isOpen = useSelector((state) => state.modal.isOpen);
+  const getTasksData = useSelector((state) => state.api.getItemsData);
   const userKey = authData?.sub;
+
+  const [loading, setLoading] = useState(false);
 
   // console.log(isOpen);
   // console.log(userKey);
+  // console.log(getTasksData);
+  // console.log(loading);
+
+  useEffect(() => {
+    if (!userKey) {
+      return;
+    }
+
+    const fetchGetItems = async () => {
+      try {
+        setLoading(true);
+        await dispatch(fetchGetItemsData(userKey)).unwrap();
+      } catch (error) {
+        console.log("Failed to fetch items:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchGetItems();
+  }, [dispatch, userKey]);
 
   return (
     <div className="panel bg-[#212121] w-4/5 h-full rounded-md border border-gray-500 py-5 px-4">
@@ -21,7 +50,16 @@ const ItemPanel = ({ pageTitle }) => {
           <PageTitle title={pageTitle} />
 
           <div className="panel-items">
-            <AddItem />
+            <div className="items flex flex-wrap">
+              {loading ? (
+                <div>
+                  <LoadingSkeleton />
+                </div>
+              ) : (
+                getTasksData?.map((item, idx) => <Item key={idx} task={item} />)
+              )}
+              <AddItem />
+            </div>
           </div>
         </div>
       ) : (

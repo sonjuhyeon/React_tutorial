@@ -1,0 +1,14 @@
+import React from "react";
+import Navbar from "../Navbar";
+import ItemPanel from "../ItemPanel";
+
+const index = () => {
+  return (
+    <div className="page_section">
+      <Navbar menuIdx={2} />
+      <ItemPanel pageTitle="Proceeding Items" />
+    </div>
+  );
+};
+
+export default index;
