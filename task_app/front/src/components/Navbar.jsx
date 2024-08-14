@@ -2,25 +2,35 @@ import React, { useEffect, useState } from "react";
 
 import { jwtDecode } from "jwt-decode";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login, logout } from "../redux/slices/authslice";
 
 import { navMenus } from "../utils/data";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 
-const Navbar = () => {
+const Navbar = ({ menuIdx }) => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.authData);
+  const { name } = user || {};
+
   const googleClientId = process.env.REACT_APP_AUTH_CLIENT_ID;
   const [isAuth, setIsAuth] = useState(false);
 
   const handleLoginSuccess = (response) => {
     const decodeed = jwtDecode(response.credential);
 
-    dispatch(login({ authData: decodeed, token: response.credential }));
-
+    dispatch(login({ authData: decodeed }));
     setIsAuth(true);
   };
+
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem("authData"));
+    if (storedData) {
+      dispatch(login({ authData: storedData }));
+      setIsAuth(true);
+    }
+  }, [dispatch]);
 
   useEffect(() => {
     // 구글 아이디가 가져와 졌을 때 구글 값 초기화
@@ -57,8 +67,8 @@ const Navbar = () => {
           <li
             key={idx}
             className={`${
-              menu.idx == 0 ? "bg-gray-950 border border-gray-700" : ""
-            }rounded-sm mb-1`}
+              menu.idx === menuIdx ? "bg-gray-950" : ""
+            } border border-gray-700 rounded-sm mb-1`}
           >
             <Link to={menu.to} className="flex items-center gap-x-4 py-1 px-10">
               {menu.icon}
@@ -68,12 +78,20 @@ const Navbar = () => {
         ))}
       </ul>
       {isAuth ? (
-        <button onClick={handleLogoutClick}>Logout</button>
+        <div className="w-4/5">
+          <button
+            onClick={handleLogoutClick}
+            className="font-customFontEn flex justify-center items-center gap-2 bg-gray-300 text-gray-900 py-2 px-4 rounded-md w-full"
+          >
+            <FcGoogle className="h-5 w-5" />
+            <span className="text-base">{name}님 Logout</span>
+          </button>
+        </div>
       ) : (
-        <div>
+        <div className="w-4/5">
           <button
             onClick={handleLoginClick}
-            className="font-customFontKR flex justify-center items-center gap-2 bg-gray-300 text-gray-900 py-2 px-4 rounded-md w-full"
+            className="font-customFontEn flex justify-center items-center gap-2 bg-gray-300 text-gray-900 py-2 px-4 rounded-md w-full"
           >
             <FcGoogle className="h-5 w-5" />
             Login with Google
