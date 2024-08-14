@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 import PageTitle from "./PageTitle";
 import Item from "./Item";
@@ -52,9 +54,14 @@ const ItemPanel = ({ pageTitle }) => {
           <div className="panel-items">
             <div className="items flex flex-wrap">
               {loading ? (
-                <div>
+                <SkeletonTheme
+                  baseColor="#202020"
+                  highlightColor="#444"
+                  width="100%"
+                  height="25vh"
+                >
                   <LoadingSkeleton />
-                </div>
+                </SkeletonTheme>
               ) : (
                 getTasksData?.map((item, idx) => <Item key={idx} task={item} />)
               )}

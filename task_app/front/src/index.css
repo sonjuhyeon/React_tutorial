@@ -54,3 +54,7 @@ body {
   border-radius: 5px;
   border: 2px solid #ebf5fc;
 }
+
+span[aria-live="polite"] {
+  width: 40%;
+}
