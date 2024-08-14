@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { jwtDecode } from "jwt-decode";
 
@@ -17,12 +17,15 @@ const Navbar = ({ menuIdx }) => {
   const googleClientId = process.env.REACT_APP_AUTH_CLIENT_ID;
   const [isAuth, setIsAuth] = useState(false);
 
-  const handleLoginSuccess = (response) => {
-    const decodeed = jwtDecode(response.credential);
+  const handleLoginSuccess = useCallback(
+    (response) => {
+      const decodeed = jwtDecode(response.credential);
 
-    dispatch(login({ authData: decodeed }));
-    setIsAuth(true);
-  };
+      dispatch(login({ authData: decodeed }));
+      setIsAuth(true);
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("authData"));
@@ -40,7 +43,7 @@ const Navbar = ({ menuIdx }) => {
         callback: handleLoginSuccess,
       });
     }
-  }, [googleClientId]);
+  }, [googleClientId, handleLoginSuccess]);
 
   const handleLoginClick = () => {
     window.google.accounts.id.prompt(); // 로그인 팝업 띄우기
