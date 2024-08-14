@@ -24,15 +24,6 @@ const LoadingSkeleton = () => {
           </div>
         </div>
       </div>
-      {/* <p>
-        <Skeleton width="30%" height="30px" />
-      </p>
-      <p className="flex flex-col">
-        <Skeleton width="100%" height="30px" />
-        <Skeleton width="100%" height="30px" />
-        <Skeleton width="100%" height="30px" />
-        <Skeleton width="100%" height="30px" />
-      </p> */}
     </div>
   );
 };
