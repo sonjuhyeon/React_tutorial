@@ -89,6 +89,9 @@ span[aria-live="polite"] {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  /* padding: 0.5rem;
+  border-radius: 0.25rem;
+  background: #000; */
 
   label {
     flex: 1;
@@ -98,3 +101,11 @@ span[aria-live="polite"] {
     width: initial;
   }
 }
+
+/* .add-task-form .is-completed {
+  background: #000;
+}
+
+.add-task-form .is-important {
+  background: #000;
+} */

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../redux/slices/modalSlice";
+import { toast } from "react-toastify";
+import { fetchGetItemsData, fetchPostItemData } from "../redux/slices/apiSlice";
 
 const Modal = () => {
   const dispatch = useDispatch();
@@ -16,7 +18,46 @@ const Modal = () => {
     userId: user?.sub,
   });
 
-  const handleSubmit = (e) => {};
+  const handleChange = (e) => {
+    // setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!user.sub) {
+      toast.error("잘못된 사용자 입니다.");
+      return;
+    }
+    if (!formData.title) {
+      toast.error("제목을 입력해주세요");
+      return;
+    }
+    if (!formData.description) {
+      toast.error("내용을 입력해주세요");
+      return;
+    }
+    if (!formData.date) {
+      toast.error("날짜를 입력해주세요");
+      return;
+    }
+
+    try {
+      dispatch(fetchPostItemData(formData));
+      toast.success("할일이 추가되었습니다.");
+
+      dispatch(closeModal());
+      await dispatch(fetchGetItemsData(user?.sub)).unwrap();
+    } catch (error) {
+      console.log("Error adding task:", error);
+      toast.error("할일 추가에 실패했습니다.");
+    }
+  };
 
   const handleCloseModal = () => {
     dispatch(closeModal());
@@ -28,7 +69,7 @@ const Modal = () => {
         <h2 className="text-2xl py-2 border-b border-gray-300 w-fit font-semibold">
           할일 추가하기
         </h2>
-        <form className="w-full" onSubmit={handleSubmit}>
+        <form className="add-task-form w-full" onSubmit={handleSubmit}>
           <div className="input-control">
             <label htmlFor="title">제목</label>
             <input
@@ -37,6 +78,7 @@ const Modal = () => {
               name="title"
               placeholder="제목을 입력해주세요"
               value={formData.title}
+              onChange={handleChange}
             />
           </div>
 
@@ -47,31 +89,40 @@ const Modal = () => {
               name="description"
               placeholder="내용을 입력해주세요"
               value={formData.description}
+              onChange={handleChange}
             />
           </div>
 
           <div className="input-control">
             <label htmlFor="date">입력날짜</label>
-            <input type="date" id="date" name="date" value={formData.date} />
+            <input
+              type="date"
+              id="date"
+              name="date"
+              value={formData.date}
+              onChange={handleChange}
+            />
           </div>
 
-          <div className="input-control toggler">
+          <div className="input-control toggler is-completed">
             <label htmlFor="isCompleted">완료 여부</label>
             <input
               type="checkbox"
               id="isCompleted"
               name="isCompleted"
               value={formData.isCompleted}
+              onChange={handleChange}
             />
           </div>
 
-          <div className="input-control toggler">
+          <div className="input-control toggler is-important">
             <label htmlFor="isImportant">중요성 여부</label>
             <input
               type="checkbox"
               id="isImportant"
               name="isImportant"
               value={formData.isImportant}
+              onChange={handleChange}
             />
           </div>
 
