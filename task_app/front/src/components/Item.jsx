@@ -8,6 +8,7 @@ import {
 } from "../redux/slices/apiSlice";
 
 import { FaTrash, FaEdit } from "react-icons/fa";
+import { GoCheckCircleFill, GoChecklist, GoStarFill } from "react-icons/go";
 import { toast } from "react-toastify";
 
 const Item = ({ task }) => {
@@ -64,9 +65,11 @@ const Item = ({ task }) => {
     <div className="item w-1/3 h-[25vh] p-[0.25rem]">
       <div className="w-full h-full border border-gray-500 rounded-md flex py-3 px-4 flex-col justify-between bg-gray-950">
         <div className="upper">
-          <h2 className="text-xl font-normal mb-3 relative pb-2">
+          <h2 className="text-xl font-normal mb-3 relative pb-2 flex items-center gap-x-2">
             <span className="w-full h-[1px] bg-gray-500 absolute bottom-0"></span>
             {title}
+            {isImportant && <GoStarFill className="text-[yellow]" />}
+            {isCompleted && <GoChecklist className="text-blue-400" />}
           </h2>
           <p>{description}</p>
         </div>
@@ -76,9 +79,10 @@ const Item = ({ task }) => {
             <div className="item-footer-left flex gap-x-2">
               {isCompleted ? (
                 <button
-                  className="block py-1 px-4 bg-green-400 text-sm text-white rounded-md"
+                  className="py-1 px-4 bg-green-400 text-sm text-white rounded-md flex items-center gap-x-1"
                   onClick={changeCompleted}
                 >
+                  <GoCheckCircleFill className="text-[yellow]" />
                   Completed
                 </button>
               ) : (
@@ -92,9 +96,10 @@ const Item = ({ task }) => {
 
               {isImportant ? (
                 <button
-                  className="block py-1 px-4 bg-blue-400 text-sm text-white rounded-md"
+                  className="py-1 px-4 bg-blue-400 text-sm text-white rounded-md flex items-center gap-x-1"
                   onClick={changeImportant}
                 >
+                  <GoStarFill className="text-[yellow]" />
                   Important
                 </button>
               ) : (
