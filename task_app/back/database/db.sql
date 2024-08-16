@@ -16,3 +16,7 @@ select * from task
 
 -- 특정사용자 데이터 조회
 select * from task where userId = "juhyeon"
+
+
+-- 데이터 삭제
+DELETE FROM task WHERE _id = '1234'

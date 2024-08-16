@@ -71,8 +71,8 @@ span[aria-live="polite"] {
     border: none;
     padding: 0.5rem;
     resize: none;
-    background-color: #000;
-    color: #ccc;
+    background-color: #555;
+    color: #ddd;
     border-radius: 0.25rem;
   }
 }
@@ -89,9 +89,8 @@ span[aria-live="polite"] {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* padding: 0.5rem;
+  padding: 0.5rem;
   border-radius: 0.25rem;
-  background: #000; */
 
   label {
     flex: 1;
@@ -102,10 +101,10 @@ span[aria-live="polite"] {
   }
 }
 
-/* .add-task-form .is-completed {
-  background: #000;
+.add-task-form .is-completed {
+  background: #4ade80;
 }
 
 .add-task-form .is-important {
-  background: #000;
-} */
+  background: #f87171;
+}

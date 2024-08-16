@@ -1,6 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { GET_TASKS_API_URL, POST_TASKS_API_URL } from "../../utils/apiUrl";
-import { getRequest, postRequest } from "../../utils/requestMethods";
+import {
+  DELETE_TASKS_API_URL,
+  GET_TASKS_API_URL,
+  POST_TASKS_API_URL,
+} from "../../utils/apiUrl";
+import {
+  deleteRequest,
+  getRequest,
+  postRequest,
+} from "../../utils/requestMethods";
 
 const getItemsFetchThunk = (actionType, apiUrl) => {
   return createAsyncThunk(actionType, async (userId) => {
@@ -18,6 +26,16 @@ const postItemFetchThunk = (actionType, apiUrl) => {
   });
 };
 
+const deleteItemFetchThunk = (actionType, apiUrl) => {
+  return createAsyncThunk(actionType, async (id) => {
+    const options = {
+      method: "DELETE",
+    };
+    const fullPath = `${apiUrl}/${id}`;
+    return await deleteRequest(fullPath, options);
+  });
+};
+
 export const fetchGetItemsData = getItemsFetchThunk(
   "fetchGetItems",
   GET_TASKS_API_URL
@@ -26,6 +44,11 @@ export const fetchGetItemsData = getItemsFetchThunk(
 export const fetchPostItemData = postItemFetchThunk(
   "fetchPostItem",
   POST_TASKS_API_URL
+);
+
+export const fetchDeleteItemData = deleteItemFetchThunk(
+  "fetchDeleteItem",
+  DELETE_TASKS_API_URL
 );
 
 const handleFullfilled = (stateKey) => (state, action) => {
@@ -42,6 +65,7 @@ const apiSlice = createSlice({
   initialState: {
     getItemsData: null,
     postItemData: null,
+    deleteItemData: null,
   },
   extraReducers: (builder) => {
     builder
@@ -49,7 +73,13 @@ const apiSlice = createSlice({
       .addCase(fetchGetItemsData.rejected, handleRejected)
 
       .addCase(fetchPostItemData.fulfilled, handleFullfilled("postItemData"))
-      .addCase(fetchPostItemData.rejected, handleRejected);
+      .addCase(fetchPostItemData.rejected, handleRejected)
+
+      .addCase(
+        fetchDeleteItemData.fulfilled,
+        handleFullfilled("deleteItemData")
+      )
+      .addCase(fetchDeleteItemData.rejected, handleRejected);
   },
 });
 

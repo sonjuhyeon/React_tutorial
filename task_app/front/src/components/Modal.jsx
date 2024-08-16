@@ -65,7 +65,7 @@ const Modal = () => {
 
   return (
     <div className="modal fixed w-full h-full bg-black bg-opacity-50 flex items-center justify-center left-0 top-0 z-50">
-      <div className="form-wrapper bg-gray-700 rounded-md w-1/2 flex flex-col items-center relative p-4">
+      <div className="form-wrapper bg-[#222] rounded-md w-1/2 flex flex-col items-center relative p-4">
         <h2 className="text-2xl py-2 border-b border-gray-300 w-fit font-semibold">
           할일 추가하기
         </h2>
@@ -129,7 +129,7 @@ const Modal = () => {
           <div className="submit-btn flex justify-end">
             <button
               type="submit"
-              className="flex justify-normal bg-black w-fit py-3 px-6 rounded-md hover:bg-slate-900"
+              className="flex justify-normal bg-black w-fit py-3 px-6 rounded-md hover:bg-slate-600"
             >
               Create Task
             </button>
