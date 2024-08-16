@@ -20,3 +20,7 @@ select * from task where userId = "juhyeon"
 
 -- 데이터 삭제
 DELETE FROM task WHERE _id = '1234'
+
+
+-- 업데이트
+UPDATE task SET iscompleted = true WHERE _id = '12345'

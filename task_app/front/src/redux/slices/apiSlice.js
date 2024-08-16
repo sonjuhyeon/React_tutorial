@@ -3,10 +3,12 @@ import {
   DELETE_TASKS_API_URL,
   GET_TASKS_API_URL,
   POST_TASKS_API_URL,
+  UPDATE_COMPLETED_TASKS_API_URL,
 } from "../../utils/apiUrl";
 import {
   deleteRequest,
   getRequest,
+  patchRequest,
   postRequest,
 } from "../../utils/requestMethods";
 
@@ -36,6 +38,12 @@ const deleteItemFetchThunk = (actionType, apiUrl) => {
   });
 };
 
+const updateCompletedFetchThunk = (actionType, apiUrl) => {
+  return createAsyncThunk(actionType, async (options) => {
+    return await patchRequest(apiUrl, options);
+  });
+};
+
 export const fetchGetItemsData = getItemsFetchThunk(
   "fetchGetItems",
   GET_TASKS_API_URL
@@ -49,6 +57,11 @@ export const fetchPostItemData = postItemFetchThunk(
 export const fetchDeleteItemData = deleteItemFetchThunk(
   "fetchDeleteItem",
   DELETE_TASKS_API_URL
+);
+
+export const fetchUpdateCompletedData = updateCompletedFetchThunk(
+  "fetchUpdateCompleted",
+  UPDATE_COMPLETED_TASKS_API_URL
 );
 
 const handleFullfilled = (stateKey) => (state, action) => {
@@ -66,6 +79,7 @@ const apiSlice = createSlice({
     getItemsData: null,
     postItemData: null,
     deleteItemData: null,
+    updateCompletedData: null,
   },
   extraReducers: (builder) => {
     builder
@@ -79,7 +93,13 @@ const apiSlice = createSlice({
         fetchDeleteItemData.fulfilled,
         handleFullfilled("deleteItemData")
       )
-      .addCase(fetchDeleteItemData.rejected, handleRejected);
+      .addCase(fetchDeleteItemData.rejected, handleRejected)
+
+      .addCase(
+        fetchUpdateCompletedData.fulfilled,
+        handleFullfilled("updateCompletedData")
+      )
+      .addCase(fetchUpdateCompletedData.rejected, handleRejected);
   },
 });
 
