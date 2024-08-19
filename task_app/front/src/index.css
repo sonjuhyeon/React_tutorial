@@ -91,6 +91,7 @@ span[aria-live="polite"] {
   justify-content: space-between;
   padding: 0.5rem;
   border-radius: 0.25rem;
+  background: #333;
 
   label {
     flex: 1;
@@ -99,12 +100,4 @@ span[aria-live="polite"] {
   input {
     width: initial;
   }
-}
-
-.add-task-form .is-completed {
-  background: #4ade80;
-}
-
-.add-task-form .is-important {
-  background: #f87171;
 }

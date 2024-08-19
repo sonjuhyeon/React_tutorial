@@ -135,7 +135,7 @@ const Modal = () => {
             />
           </div>
 
-          <div className="input-control toggler is-completed">
+          <div className="input-control toggler">
             <label htmlFor="isCompleted">완료 여부</label>
             <input
               type="checkbox"
@@ -146,7 +146,7 @@ const Modal = () => {
             />
           </div>
 
-          <div className="input-control toggler is-important">
+          <div className="input-control toggler">
             <label htmlFor="isImportant">중요성 여부</label>
             <input
               type="checkbox"

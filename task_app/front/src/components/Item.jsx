@@ -89,9 +89,9 @@ const Item = ({ task }) => {
             <span className="w-full h-[1px] bg-gray-500 absolute bottom-0"></span>
             {title}
             <div className="flex gap-x-4">
-              {isCompleted && <GoChecklist className="text-blue-400" />}
+              {iscompleted && <GoChecklist className="text-blue-400" />}
               <button onClick={changeImportant}>
-                {isImportant ? (
+                {isimportant ? (
                   <GoStarFill className="text-[yellow]" />
                 ) : (
                   <GoStar />
@@ -104,7 +104,7 @@ const Item = ({ task }) => {
         <div className="lower">
           <p className="text-sm mb-1">{date}</p>
           <div className="item-footer flex justify-between">
-            <div className="item-footer-left flex gap-x-2">
+            <div className="item-footer-left">
               {iscompleted ? (
                 <button
                   className="py-1 px-4 bg-cyan-400 text-sm text-white rounded-md flex items-center gap-x-1"
@@ -121,23 +121,6 @@ const Item = ({ task }) => {
                   InCompleted
                 </button>
               )}
-
-              {/* {isImportant ? (
-                <button
-                  className="py-1 px-4 bg-green-400 text-sm text-white rounded-md flex items-center gap-x-1"
-                  onClick={changeImportant}
-                >
-                  <GoStarFill className="text-[yellow]" />
-                  Important
-                </button>
-              ) : (
-                <button
-                  className="block py-1 px-4 bg-red-400 text-sm text-white rounded-md"
-                  onClick={changeImportant}
-                >
-                  Unimportant
-                </button>
-              )} */}
             </div>
             <div className="item-footer-right flex gap-x-4 items-center">
               <button className="">

@@ -11,7 +11,7 @@ import LoadingSkeleton from "./LoadingSkeleton";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGetItemsData } from "../redux/slices/apiSlice";
 
-const ItemPanel = ({ pageTitle }) => {
+const ItemPanel = ({ pageTitle, filterCompleted, filterImportant }) => {
   const dispatch = useDispatch();
   const authData = useSelector((state) => state.auth.authData);
   const isOpen = useSelector((state) => state.modal.isOpen);
@@ -43,6 +43,34 @@ const ItemPanel = ({ pageTitle }) => {
     fetchGetItems();
   }, [dispatch, userKey]);
 
+  // 1. home 메뉴를 서택할 때:
+  // - all메뉴를 선택하면 첫번째 filter 조건이 true이므로 모든 task를 반환
+  // - 1번에서 반환된 모든 tasks를 대상으로 두번째 filter 조건을 적용
+  // - filterImportant가 undefined이면 조건이 true 이므로 모든 task를 반환
+
+  // 2. Completed 메뉴를 선택할 때:
+  // - 첫번째 필터 조건에서 if문이 false이므로 return 문으로 이동하여 filterCompleted 조건을 판단
+  // - filterCompleted가 true이면 task.iscompleled가 true인 task만 반환
+
+  // 3. Proceeding 메뉴를 선택할 때:
+  // - 첫번째 필터 조건에서 if문이 false이므로 return 문으로 이동하여 filterCompleted 조건을 판단
+  // - filterCompleted가 false이면 task.iscompleled가 false인 task만 반환
+
+  // 4. Important 메뉴를 선택할 때:
+  // - 첫번째 필터 조건에서 if문이 true이므로 두번째 필터 조건으로 이동
+  // - 두번째 filter 조건에서 filterImportant가 없으면 true이므로 모든 task를 반환(home, Completed, Proceeding과 동일)
+  // - filterImportant가 true이면 task.isimportant가 true인 task만 반환
+
+  const filteredTasks = getTasksData
+    ?.filter((task) => {
+      if (filterCompleted === "all") return true;
+      return filterCompleted ? task.iscompleted : !task.iscompleted;
+    })
+    .filter((task) => {
+      if (filterImportant === undefined) return true;
+      return filterImportant ? task.isimportant : !task.isimportant;
+    });
+
   return (
     <div className="panel bg-[#212121] w-4/5 h-full rounded-md border border-gray-500 py-5 px-4 overflow-y-auto">
       {userKey ? (
@@ -63,7 +91,9 @@ const ItemPanel = ({ pageTitle }) => {
                   <LoadingSkeleton />
                 </SkeletonTheme>
               ) : (
-                getTasksData?.map((item, idx) => <Item key={idx} task={item} />)
+                filteredTasks?.map((item, idx) => (
+                  <Item key={idx} task={item} />
+                ))
               )}
               <AddItem />
             </div>

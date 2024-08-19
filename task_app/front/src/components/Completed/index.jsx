@@ -6,7 +6,7 @@ const index = () => {
   return (
     <div className="page_section">
       <Navbar menuIdx={1} />
-      <ItemPanel pageTitle="Completed Items" />
+      <ItemPanel pageTitle="Completed Items" filterCompleted={true} />
     </div>
   );
 };

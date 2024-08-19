@@ -2,7 +2,6 @@ const database = require("../database/database");
 
 exports.updateCompletedTask = async (req, res) => {
   const { isCompleted, itemId } = req.body;
-  console.log(req.body);
   try {
     const result = await database.query(
       "UPDATE task SET iscompleted = $1 WHERE _id = $2",
@@ -16,7 +15,6 @@ exports.updateCompletedTask = async (req, res) => {
 
 exports.updateTask = async (req, res) => {
   const { title, description, date, isCompleted, isImportant, id } = req.body;
-  console.log(req.body);
   try {
     const result = await database.query(
       "UPDATE task SET title = $1, description = $2, date = $3, iscompleted = $4, isimportant = $5 WHERE _id = $6",

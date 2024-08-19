@@ -34,7 +34,6 @@ export async function putRequest(url, options) {
 
 /* ====== Common Patch Request Function ====== */
 export async function patchRequest(url, options) {
-  console.log(options);
   return await fetch(url, options).then((response) => {
     if (!response.ok) {
       throw new Error("Network response was not ok");

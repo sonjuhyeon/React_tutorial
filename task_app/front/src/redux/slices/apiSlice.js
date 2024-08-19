@@ -51,7 +51,6 @@ const deleteItemFetchThunk = (actionType, apiUrl) => {
 
 const updateCompletedFetchThunk = (actionType, apiUrl) => {
   return createAsyncThunk(actionType, async (options) => {
-    // console.log(options);
     return await patchRequest(apiUrl, options);
   });
 };
