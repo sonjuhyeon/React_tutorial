@@ -6,9 +6,15 @@ import {
   fetchGetItemsData,
   fetchUpdateCompletedData,
 } from "../redux/slices/apiSlice";
+import { openModal } from "../redux/slices/modalSlice";
 
 import { FaTrash, FaEdit } from "react-icons/fa";
-import { GoCheckCircleFill, GoChecklist, GoStarFill } from "react-icons/go";
+import {
+  GoCheckCircleFill,
+  GoChecklist,
+  GoStarFill,
+  GoStar,
+} from "react-icons/go";
 import { toast } from "react-toastify";
 
 const Item = ({ task }) => {
@@ -39,64 +45,86 @@ const Item = ({ task }) => {
     }
   };
 
-  const changeCompleted = () => {
-    setIsCompleted(!isCompleted);
+  const changeCompleted = async () => {
+    // setIsCompleted(!isCompleted)을 호출하면 상태 업데이트가 비동기적으로 이루어지기 때문에, isCompleted의 값이 즉시 변경되지 않는다.
+    // 따라서 updateCompletedData 객체를 생성할 때 isCompleted의 이전 값이 사용된다. 이로 인해 true/false가 한 단계씩 밀리게 된다.
+
+    const newIsCompleted = !isCompleted;
+    setIsCompleted(newIsCompleted);
+
     const updateCompletedData = {
       itemId: _id,
-      isCompleted: isCompleted,
+      isCompleted: newIsCompleted,
     };
 
     const options = {
       method: "PATCH",
-      header: {
+      headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(updateCompletedData),
     };
 
-    dispatch(fetchUpdateCompletedData(options));
+    await dispatch(fetchUpdateCompletedData(options)).unwrap();
+    newIsCompleted
+      ? toast.success("할일을 완료했습니다.")
+      : toast.success("할일을 완료하지 못했습니다.");
+    await dispatch(fetchGetItemsData(userid)).unwrap();
   };
 
   const changeImportant = () => {
-    setIsImportant(!isImportant);
+    const newIsImortant = !isImportant;
+    setIsImportant(newIsImortant);
+  };
+
+  const handleOpenModal = () => {
+    dispatch(openModal({ modalType: "update", task }));
   };
 
   return (
     <div className="item w-1/3 h-[25vh] p-[0.25rem]">
       <div className="w-full h-full border border-gray-500 rounded-md flex py-3 px-4 flex-col justify-between bg-gray-950">
         <div className="upper">
-          <h2 className="text-xl font-normal mb-3 relative pb-2 flex items-center gap-x-2">
+          <h2 className="text-xl font-normal mb-3 relative pb-2 flex items-center justify-between">
             <span className="w-full h-[1px] bg-gray-500 absolute bottom-0"></span>
             {title}
-            {isImportant && <GoStarFill className="text-[yellow]" />}
-            {isCompleted && <GoChecklist className="text-blue-400" />}
+            <div className="flex gap-x-4">
+              {isCompleted && <GoChecklist className="text-blue-400" />}
+              <button onClick={changeImportant}>
+                {isImportant ? (
+                  <GoStarFill className="text-[yellow]" />
+                ) : (
+                  <GoStar />
+                )}
+              </button>
+            </div>
           </h2>
-          <p>{description}</p>
+          <p style={{ whiteSpace: "pre-wrap" }}>{description}</p>
         </div>
         <div className="lower">
           <p className="text-sm mb-1">{date}</p>
           <div className="item-footer flex justify-between">
             <div className="item-footer-left flex gap-x-2">
-              {isCompleted ? (
+              {iscompleted ? (
                 <button
-                  className="py-1 px-4 bg-green-400 text-sm text-white rounded-md flex items-center gap-x-1"
+                  className="py-1 px-4 bg-cyan-400 text-sm text-white rounded-md flex items-center gap-x-1"
                   onClick={changeCompleted}
                 >
-                  <GoCheckCircleFill className="text-[yellow]" />
+                  <GoCheckCircleFill className="text-green-700" />
                   Completed
                 </button>
               ) : (
                 <button
-                  className="block py-1 px-4 bg-orange-400 text-sm text-white rounded-md"
+                  className="block py-1 px-4 bg-red-400 text-sm text-white rounded-md"
                   onClick={changeCompleted}
                 >
                   InCompleted
                 </button>
               )}
 
-              {isImportant ? (
+              {/* {isImportant ? (
                 <button
-                  className="py-1 px-4 bg-blue-400 text-sm text-white rounded-md flex items-center gap-x-1"
+                  className="py-1 px-4 bg-green-400 text-sm text-white rounded-md flex items-center gap-x-1"
                   onClick={changeImportant}
                 >
                   <GoStarFill className="text-[yellow]" />
@@ -109,11 +137,11 @@ const Item = ({ task }) => {
                 >
                   Unimportant
                 </button>
-              )}
+              )} */}
             </div>
             <div className="item-footer-right flex gap-x-4 items-center">
               <button className="">
-                <FaEdit />
+                <FaEdit onClick={handleOpenModal} />
               </button>
               <button className="delete" onClick={deleteItem}>
                 <FaTrash />

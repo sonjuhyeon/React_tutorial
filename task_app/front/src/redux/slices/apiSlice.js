@@ -4,12 +4,14 @@ import {
   GET_TASKS_API_URL,
   POST_TASKS_API_URL,
   UPDATE_COMPLETED_TASKS_API_URL,
+  UPDATE_TASK_API_URL,
 } from "../../utils/apiUrl";
 import {
   deleteRequest,
   getRequest,
   patchRequest,
   postRequest,
+  putRequest,
 } from "../../utils/requestMethods";
 
 const getItemsFetchThunk = (actionType, apiUrl) => {
@@ -28,6 +30,15 @@ const postItemFetchThunk = (actionType, apiUrl) => {
   });
 };
 
+const updateItemFetchThunk = (actionType, apiUrl) => {
+  return createAsyncThunk(actionType, async (updateData) => {
+    const options = {
+      body: JSON.stringify(updateData), // 표준 JSON 문자열로 변환
+    };
+    return await putRequest(apiUrl, options);
+  });
+};
+
 const deleteItemFetchThunk = (actionType, apiUrl) => {
   return createAsyncThunk(actionType, async (id) => {
     const options = {
@@ -40,6 +51,7 @@ const deleteItemFetchThunk = (actionType, apiUrl) => {
 
 const updateCompletedFetchThunk = (actionType, apiUrl) => {
   return createAsyncThunk(actionType, async (options) => {
+    // console.log(options);
     return await patchRequest(apiUrl, options);
   });
 };
@@ -52,6 +64,11 @@ export const fetchGetItemsData = getItemsFetchThunk(
 export const fetchPostItemData = postItemFetchThunk(
   "fetchPostItem",
   POST_TASKS_API_URL
+);
+
+export const fetchPutItemData = updateItemFetchThunk(
+  "fetchPutItem",
+  UPDATE_TASK_API_URL
 );
 
 export const fetchDeleteItemData = deleteItemFetchThunk(
@@ -78,6 +95,7 @@ const apiSlice = createSlice({
   initialState: {
     getItemsData: null,
     postItemData: null,
+    putItemData: null,
     deleteItemData: null,
     updateCompletedData: null,
   },
@@ -88,6 +106,9 @@ const apiSlice = createSlice({
 
       .addCase(fetchPostItemData.fulfilled, handleFullfilled("postItemData"))
       .addCase(fetchPostItemData.rejected, handleRejected)
+
+      .addCase(fetchPutItemData.fulfilled, handleFullfilled("putItemData"))
+      .addCase(fetchPutItemData.rejected, handleRejected)
 
       .addCase(
         fetchDeleteItemData.fulfilled,

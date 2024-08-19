@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../redux/slices/modalSlice";
 import { toast } from "react-toastify";
-import { fetchGetItemsData, fetchPostItemData } from "../redux/slices/apiSlice";
+import {
+  fetchGetItemsData,
+  fetchPostItemData,
+  fetchPutItemData,
+} from "../redux/slices/apiSlice";
 
 const Modal = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.authData);
+  const { isOpen, modalType, task } = useSelector((state) => state.modal);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -17,6 +22,28 @@ const Modal = () => {
     isImportant: false,
     userId: user?.sub,
   });
+
+  useEffect(() => {
+    if (modalType === "update" && task) {
+      setFormData({
+        title: task.title || "",
+        description: task.description || "",
+        date: task.date,
+        isCompleted: task.iscompleted || false,
+        isImportant: task.isimportant || false,
+        id: task._id || "",
+      });
+    } else {
+      setFormData({
+        title: "",
+        description: "",
+        date: "",
+        isCompleted: false,
+        isImportant: false,
+        userId: user?.sub,
+      });
+    }
+  }, [modalType, task]);
 
   const handleChange = (e) => {
     // setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -48,10 +75,14 @@ const Modal = () => {
     }
 
     try {
-      dispatch(fetchPostItemData(formData));
-      toast.success("할일이 추가되었습니다.");
-
-      dispatch(closeModal());
+      if (modalType === "update" && task) {
+        await dispatch(fetchPutItemData(formData)).unwrap();
+        toast.success("할일이 수정되었습니다.");
+      } else {
+        await dispatch(fetchPostItemData(formData)).unwrap();
+        toast.success("할일이 추가되었습니다.");
+      }
+      handleCloseModal();
       await dispatch(fetchGetItemsData(user?.sub)).unwrap();
     } catch (error) {
       console.log("Error adding task:", error);
@@ -67,7 +98,7 @@ const Modal = () => {
     <div className="modal fixed w-full h-full bg-black bg-opacity-50 flex items-center justify-center left-0 top-0 z-50">
       <div className="form-wrapper bg-[#222] rounded-md w-1/2 flex flex-col items-center relative p-4">
         <h2 className="text-2xl py-2 border-b border-gray-300 w-fit font-semibold">
-          할일 추가하기
+          {modalType === "update" ? "할일 수정하기" : "할일 추가하기"}
         </h2>
         <form className="add-task-form w-full" onSubmit={handleSubmit}>
           <div className="input-control">
@@ -110,7 +141,7 @@ const Modal = () => {
               type="checkbox"
               id="isCompleted"
               name="isCompleted"
-              value={formData.isCompleted}
+              checked={formData.isCompleted}
               onChange={handleChange}
             />
           </div>
@@ -121,7 +152,7 @@ const Modal = () => {
               type="checkbox"
               id="isImportant"
               name="isImportant"
-              value={formData.isImportant}
+              checked={formData.isImportant}
               onChange={handleChange}
             />
           </div>
@@ -131,7 +162,7 @@ const Modal = () => {
               type="submit"
               className="flex justify-normal bg-black w-fit py-3 px-6 rounded-md hover:bg-slate-600"
             >
-              Create Task
+              {modalType === "update" ? "Update Task" : "Create Task"}
             </button>
           </div>
         </form>

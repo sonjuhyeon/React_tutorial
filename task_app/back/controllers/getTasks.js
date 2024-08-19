@@ -5,7 +5,7 @@ exports.getTasks = async (req, res) => {
 
   try {
     const result = await database.query(
-      "select * from task where userId = $1",
+      "select * from task where userId = $1 order by created_at desc",
       [userId]
     );
     return res.status(200).json(result.rows);

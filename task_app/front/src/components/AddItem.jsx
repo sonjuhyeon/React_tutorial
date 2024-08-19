@@ -7,7 +7,7 @@ const AddItem = () => {
   const dispatch = useDispatch();
 
   const handleOpenModal = () => {
-    dispatch(openModal());
+    dispatch(openModal({ modalType: "create" }));
   };
   return (
     <div className="add-card w-1/3 h-[25vh] p-[0.25rem]">
