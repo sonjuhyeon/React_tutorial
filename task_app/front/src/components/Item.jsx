@@ -5,6 +5,7 @@ import {
   fetchDeleteItemData,
   fetchGetItemsData,
   fetchUpdateCompletedData,
+  fetchUpdateImportantData,
 } from "../redux/slices/apiSlice";
 import { openModal } from "../redux/slices/modalSlice";
 
@@ -14,6 +15,7 @@ import {
   GoChecklist,
   GoStarFill,
   GoStar,
+  GoPlusCircle,
 } from "react-icons/go";
 import { toast } from "react-toastify";
 
@@ -72,9 +74,29 @@ const Item = ({ task }) => {
     await dispatch(fetchGetItemsData(userid)).unwrap();
   };
 
-  const changeImportant = () => {
-    const newIsImortant = !isImportant;
-    setIsImportant(newIsImortant);
+  const changeImportant = async () => {
+    const newIsImportant = !isImportant;
+    setIsImportant(newIsImportant);
+
+    const updateImportantData = {
+      itemId: _id,
+      isImportant: newIsImportant,
+    };
+
+    const options = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updateImportantData),
+    };
+
+    // dispatch(fetchUpdateImportantData(options));
+    await dispatch(fetchUpdateImportantData(options)).unwrap();
+    newIsImportant
+      ? toast.success("중요목록에 추가하였습니다.")
+      : toast.success("중요목록에서 제거하였습니다.");
+    await dispatch(fetchGetItemsData(userid)).unwrap();
   };
 
   const handleOpenModal = () => {
@@ -89,6 +111,9 @@ const Item = ({ task }) => {
             <span className="w-full h-[1px] bg-gray-500 absolute bottom-0"></span>
             {title}
             <div className="flex gap-x-4">
+              <button className="">
+                <GoPlusCircle />
+              </button>
               {iscompleted && <GoChecklist className="text-blue-400" />}
               <button onClick={changeImportant}>
                 {isimportant ? (
@@ -99,7 +124,12 @@ const Item = ({ task }) => {
               </button>
             </div>
           </h2>
-          <p style={{ whiteSpace: "pre-wrap" }}>{description}</p>
+          <p
+            style={{ whiteSpace: "pre-wrap" }}
+            className="h-20 overflow-y-auto"
+          >
+            {description}
+          </p>
         </div>
         <div className="lower">
           <p className="text-sm mb-1">{date}</p>

@@ -4,6 +4,7 @@ import {
   GET_TASKS_API_URL,
   POST_TASKS_API_URL,
   UPDATE_COMPLETED_TASKS_API_URL,
+  UPDATE_IMPORTANT_TASKS_API_URL,
   UPDATE_TASK_API_URL,
 } from "../../utils/apiUrl";
 import {
@@ -55,6 +56,12 @@ const updateCompletedFetchThunk = (actionType, apiUrl) => {
   });
 };
 
+const updateImportantFetchThunk = (actionType, apiUrl) => {
+  return createAsyncThunk(actionType, async (options) => {
+    return await patchRequest(apiUrl, options);
+  });
+};
+
 export const fetchGetItemsData = getItemsFetchThunk(
   "fetchGetItems",
   GET_TASKS_API_URL
@@ -80,6 +87,11 @@ export const fetchUpdateCompletedData = updateCompletedFetchThunk(
   UPDATE_COMPLETED_TASKS_API_URL
 );
 
+export const fetchUpdateImportantData = updateImportantFetchThunk(
+  "fetchUpdateImportant",
+  UPDATE_IMPORTANT_TASKS_API_URL
+);
+
 const handleFullfilled = (stateKey) => (state, action) => {
   state[stateKey] = action.payload;
 };
@@ -97,6 +109,7 @@ const apiSlice = createSlice({
     putItemData: null,
     deleteItemData: null,
     updateCompletedData: null,
+    updateImportantData: null,
   },
   extraReducers: (builder) => {
     builder
@@ -119,7 +132,13 @@ const apiSlice = createSlice({
         fetchUpdateCompletedData.fulfilled,
         handleFullfilled("updateCompletedData")
       )
-      .addCase(fetchUpdateCompletedData.rejected, handleRejected);
+      .addCase(fetchUpdateCompletedData.rejected, handleRejected)
+
+      .addCase(
+        fetchUpdateImportantData.fulfilled,
+        handleFullfilled("updateImportantData")
+      )
+      .addCase(fetchUpdateImportantData.rejected, handleRejected);
   },
 });
 

@@ -13,6 +13,19 @@ exports.updateCompletedTask = async (req, res) => {
   }
 };
 
+exports.updateImportantTask = async (req, res) => {
+  const { isImportant, itemId } = req.body;
+  try {
+    const result = await database.query(
+      "UPDATE task SET isimportant = $1 WHERE _id = $2",
+      [isImportant, itemId]
+    );
+    return res.status(200).json({ message: "Task Updated Successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 exports.updateTask = async (req, res) => {
   const { title, description, date, isCompleted, isImportant, id } = req.body;
   try {
