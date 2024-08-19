@@ -12,7 +12,7 @@ import {
 const Modal = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.authData);
-  const { isOpen, modalType, task } = useSelector((state) => state.modal);
+  const { modalType, task } = useSelector((state) => state.modal);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -33,6 +33,15 @@ const Modal = () => {
         isImportant: task.isimportant || false,
         id: task._id || "",
       });
+    } else if (modalType === "read" && task) {
+      setFormData({
+        title: task.title || "",
+        description: task.description || "",
+        date: task.date,
+        isCompleted: task.iscompleted || false,
+        isImportant: task.isimportant || false,
+        id: task._id || "",
+      });
     } else {
       setFormData({
         title: "",
@@ -43,7 +52,7 @@ const Modal = () => {
         userId: user?.sub,
       });
     }
-  }, [modalType, task]);
+  }, [modalType, task, user]);
 
   const handleChange = (e) => {
     // setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -78,6 +87,7 @@ const Modal = () => {
       if (modalType === "update" && task) {
         await dispatch(fetchPutItemData(formData)).unwrap();
         toast.success("할일이 수정되었습니다.");
+      } else if (modalType === "read" && task) {
       } else {
         await dispatch(fetchPostItemData(formData)).unwrap();
         toast.success("할일이 추가되었습니다.");
@@ -98,7 +108,11 @@ const Modal = () => {
     <div className="modal fixed w-full h-full bg-black bg-opacity-50 flex items-center justify-center left-0 top-0 z-50">
       <div className="form-wrapper bg-[#222] rounded-md w-1/2 flex flex-col items-center relative p-4">
         <h2 className="text-2xl py-2 border-b border-gray-300 w-fit font-semibold">
-          {modalType === "update" ? "할일 수정하기" : "할일 추가하기"}
+          {modalType === "update"
+            ? "할일 수정하기"
+            : modalType === "create"
+            ? "할일 추가하기"
+            : modalType === "read" && "해야할 일"}
         </h2>
         <form className="add-task-form w-full" onSubmit={handleSubmit}>
           <div className="input-control">
@@ -110,6 +124,7 @@ const Modal = () => {
               placeholder="제목을 입력해주세요"
               value={formData.title}
               onChange={handleChange}
+              {...(modalType === "read" && { disabled: true })}
             />
           </div>
 
@@ -121,6 +136,8 @@ const Modal = () => {
               placeholder="내용을 입력해주세요"
               value={formData.description}
               onChange={handleChange}
+              className="h-40"
+              {...(modalType === "read" && { disabled: true })}
             />
           </div>
 
@@ -132,6 +149,7 @@ const Modal = () => {
               name="date"
               value={formData.date}
               onChange={handleChange}
+              {...(modalType === "read" && { disabled: true })}
             />
           </div>
 
@@ -143,6 +161,7 @@ const Modal = () => {
               name="isCompleted"
               checked={formData.isCompleted}
               onChange={handleChange}
+              {...(modalType === "read" && { disabled: true })}
             />
           </div>
 
@@ -154,6 +173,7 @@ const Modal = () => {
               name="isImportant"
               checked={formData.isImportant}
               onChange={handleChange}
+              {...(modalType === "read" && { disabled: true })}
             />
           </div>
 
@@ -162,7 +182,11 @@ const Modal = () => {
               type="submit"
               className="flex justify-normal bg-black w-fit py-3 px-6 rounded-md hover:bg-slate-600"
             >
-              {modalType === "update" ? "Update Task" : "Create Task"}
+              {modalType === "update"
+                ? "Update Task"
+                : modalType === "create"
+                ? "Create Task"
+                : modalType === "read" && "close"}
             </button>
           </div>
         </form>

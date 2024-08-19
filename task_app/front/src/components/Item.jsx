@@ -24,9 +24,6 @@ const Item = ({ task }) => {
     task;
   const dispatch = useDispatch();
 
-  const [isCompleted, setIsCompleted] = useState(iscompleted);
-  const [isImportant, setIsImportant] = useState(isimportant);
-
   const deleteItem = async () => {
     const confirm = window.confirm("아이템을 삭제하시겠습니까?");
 
@@ -51,8 +48,7 @@ const Item = ({ task }) => {
     // setIsCompleted(!isCompleted)을 호출하면 상태 업데이트가 비동기적으로 이루어지기 때문에, isCompleted의 값이 즉시 변경되지 않는다.
     // 따라서 updateCompletedData 객체를 생성할 때 isCompleted의 이전 값이 사용된다. 이로 인해 true/false가 한 단계씩 밀리게 된다.
 
-    const newIsCompleted = !isCompleted;
-    setIsCompleted(newIsCompleted);
+    const newIsCompleted = !iscompleted;
 
     const updateCompletedData = {
       itemId: _id,
@@ -75,8 +71,7 @@ const Item = ({ task }) => {
   };
 
   const changeImportant = async () => {
-    const newIsImportant = !isImportant;
-    setIsImportant(newIsImportant);
+    const newIsImportant = !isimportant;
 
     const updateImportantData = {
       itemId: _id,
@@ -99,8 +94,12 @@ const Item = ({ task }) => {
     await dispatch(fetchGetItemsData(userid)).unwrap();
   };
 
-  const handleOpenModal = () => {
+  const handleUpdateOpenModal = () => {
     dispatch(openModal({ modalType: "update", task }));
+  };
+
+  const handleReadOpenModal = () => {
+    dispatch(openModal({ modalType: "read", task }));
   };
 
   return (
@@ -111,7 +110,7 @@ const Item = ({ task }) => {
             <span className="w-full h-[1px] bg-gray-500 absolute bottom-0"></span>
             {title}
             <div className="flex gap-x-4">
-              <button className="">
+              <button onClick={handleReadOpenModal}>
                 <GoPlusCircle />
               </button>
               {iscompleted && <GoChecklist className="text-blue-400" />}
@@ -153,8 +152,8 @@ const Item = ({ task }) => {
               )}
             </div>
             <div className="item-footer-right flex gap-x-4 items-center">
-              <button className="">
-                <FaEdit onClick={handleOpenModal} />
+              <button onClick={handleUpdateOpenModal}>
+                <FaEdit />
               </button>
               <button className="delete" onClick={deleteItem}>
                 <FaTrash />
