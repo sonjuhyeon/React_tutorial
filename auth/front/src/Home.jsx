@@ -1,14 +1,23 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { logout } from "./redux/slices/authSlice";
 
 const Home = () => {
-  const authData = false;
+  const authData = useSelector((state) => state.auth.authData);
+
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   return (
     <div>
       {authData ? (
         <div>
-          <p>...님 로그인</p>
-          <button>log out</button>
+          <p>{authData.name}님 로그인</p>
+          <button onClick={handleLogout}>log out</button>
         </div>
       ) : (
         <div>
